@@ -8,7 +8,7 @@ class App extends Component {
   constructor() {
 	  super()
 	  this.state = {
-      board_size : 3, // 3-6 (let user choose 4 levels)
+      board_size : 4, // 3-6 (let user choose 4 levels)
       board : [],
       click_count : 0,
       is_cheating : false, // set a hidden button to choose whether to use a true shuffeling or the nasty one
@@ -48,22 +48,22 @@ class App extends Component {
     this.setOrderedBoard()
     let right_bottom_corner_idx = Math.pow(this.state.board_size, 2) - 1
     let white_square_index = right_bottom_corner_idx
-    for (let i = Math.pow(10,this.state.board_size - 1); i > 0; --i) {
-      white_square_index = this.validShuffleStep(white_square_index)
-    }
-
-    this.swapSquares(white_square_index, right_bottom_corner_idx)
     
+    let cnt = 0
+    this.validShuffleStep(white_square_index, cnt)
   }
 
-  validShuffleStep = (white_square_index) => {
+  validShuffleStep = (white_square_index, cnt) => {
+    if (cnt > Math.pow(10, this.state.board_size - 1)) {
+      return;
+    }
     let neighbors = this.getNeighbors(white_square_index);
     let neighbors_cnt = neighbors.length;
     let random_neighbor = this.getRandomInt(0,neighbors_cnt-1)
     this.swapSquares(white_square_index, neighbors[random_neighbor])
     this.setState({board: this.state.board})
 
-    return neighbors[random_neighbor];
+    setTimeout(() => this.validShuffleStep(neighbors[random_neighbor], ++cnt)  , 500/Math.sqrt(Math.pow(1.3,cnt)));
   }
 
   getRandomInt = (min, max) => {
