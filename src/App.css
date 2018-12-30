@@ -22,10 +22,10 @@
 /* Style the button and place it in the middle of the container/image */
 .square-button {
 	background-color: white;
-	color: red;
+	color: rgb(243, 47, 12);
 	font-size: 100px;
 	padding: 12px 24px;
 	border: 2px solid black;
   cursor: pointer;
-  min-width: 120px
+  width: 140px
   }
