@@ -11,17 +11,26 @@ class App extends Component {
       board_size : 3, // 3-6 (let user choose 4 levels)
       board : [],
       click_count : 0,
+      is_cheating : false, // set a hidden button to choose whether to use a true shuffeling or the nasty one
     }
-    this.nastyShuffleBoard(); // Assuming it's possible to solve the puzzle for any shuffeling (probably it is, i'm not sure, let user test that assumption :)  
     
+    // this.nastyShuffleBoard(); // In that case we might not have a solution (look in https://en.wikipedia.org/wiki/15_puzzle#Solvability)
+    this.shuffleBoard();
   }
-  
-  nastyShuffleBoard = (e) => {
+
+  setOrderedBoard = (e) => {
     this.state.board = []
     // Creating an array with values (1 : board_size^2 -1)
     for(let i = 1; i < this.state.board_size * this.state.board_size; ++i) {
       this.state.board.push(i);
     }
+
+    this.state.board.push(0)
+  }
+  
+  nastyShuffleBoard = (e) => {
+
+    this.setOrderedBoard()
     
     // shuffeling the array
     for(let i = this.state.board_size * this.state.board_size - 2; i > 0 ; --i) {
@@ -30,18 +39,31 @@ class App extends Component {
         continue
       } 
       else {
-        let temp = this.state.board[i];
-        this.state.board[i] = this.state.board[swaping_index];
-        this.state.board[swaping_index] = temp;
+        this.swapSquares(i, swaping_index)
       }
     }
-
-    // pushing 0 which indicates the empty slot at the end
-    this.state.board.push(0)
   }
 
   shuffleBoard = (e) => {
+    this.setOrderedBoard()
+    let right_bottom_corner_idx = Math.pow(this.state.board_size, 2) - 1
+    let white_square_index = right_bottom_corner_idx
+    for (let i = Math.pow(10,this.state.board_size - 1); i > 0; --i) {
+      white_square_index = this.validShuffleStep(white_square_index)
+    }
 
+    this.swapSquares(white_square_index, right_bottom_corner_idx)
+    
+  }
+
+  validShuffleStep = (white_square_index) => {
+    let neighbors = this.getNeighbors(white_square_index);
+    let neighbors_cnt = neighbors.length;
+    let random_neighbor = this.getRandomInt(0,neighbors_cnt-1)
+    this.swapSquares(white_square_index, neighbors[random_neighbor])
+    this.setState({board: this.state.board})
+
+    return neighbors[random_neighbor];
   }
 
   getRandomInt = (min, max) => {
@@ -50,22 +72,26 @@ class App extends Component {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  swapSquares = (i,j) => {
+    let temp = this.state.board[i];
+    this.state.board[i] = this.state.board[j];
+    this.state.board[j] = temp;
+  }
+
   moveSquare = (index) => {
     // Finding where the empty square is:
     let empty_square_index = this.findEmptySquare();
 
     if (this.areNeighbors(index, empty_square_index)) {
-      let temp = this.state.board[index];
-      this.state.board[index] = this.state.board[empty_square_index];
-      this.state.board[empty_square_index] = temp;
+      this.swapSquares(index, empty_square_index);
       this.setState({board: this.state.board})
     }
     else {
-      console.log("Tipeshhhh");
+      alert("Tipeshhhh!!!");
     }
 
     if (this.isFinished()) {
-      console.log("Boom!!!")
+      alert("Boom!!!")
     }
   }
   
@@ -82,8 +108,8 @@ class App extends Component {
     return empty_square_index;
   }
 
-  // Checking whether or not two indexes are neighbors in board
-  areNeighbors = (i,j) => {
+  // gets array with all nrighbors (square we can move to) for index i
+  getNeighbors = (i) => {
     // Gather i neighbors
     let neighbors = []
     let row = Math.floor(i / this.state.board_size)
@@ -101,6 +127,13 @@ class App extends Component {
       neighbors.push(i + 1)
     }
 
+    return neighbors
+  }
+
+  // Checking whether or not two indexes are neighbors in board
+  areNeighbors = (i,j) => {
+    // Gather i neighbors
+    let neighbors = this.getNeighbors(i);
     return neighbors.includes(j)
   }
 
@@ -117,7 +150,6 @@ class App extends Component {
 
   onClickHandler = (arr_index) => {
     this.state.click_count++;
-    console.log(arr_index)
     this.moveSquare(arr_index)
   }
 
