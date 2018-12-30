@@ -8,15 +8,15 @@ class App extends Component {
   constructor() {
 	  super()
 	  this.state = {
-      board_size : 2, // 3-6 (let user choose 4 levels)
+      board_size : 3, // 3-6 (let user choose 4 levels)
       board : [],
       click_count : 0,
     }
-    this.createShuffledArray(); // Assuming it's possible to solve the puzzle for any shuffeling (probably it is, i'm not sure, let user test that assumption :)  
+    this.nastyShuffleBoard(); // Assuming it's possible to solve the puzzle for any shuffeling (probably it is, i'm not sure, let user test that assumption :)  
     
   }
   
-  createShuffledArray = (e) => {
+  nastyShuffleBoard = (e) => {
     this.state.board = []
     // Creating an array with values (1 : board_size^2 -1)
     for(let i = 1; i < this.state.board_size * this.state.board_size; ++i) {
@@ -38,6 +38,10 @@ class App extends Component {
 
     // pushing 0 which indicates the empty slot at the end
     this.state.board.push(0)
+  }
+
+  shuffleBoard = (e) => {
+
   }
 
   getRandomInt = (min, max) => {
