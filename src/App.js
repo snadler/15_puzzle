@@ -8,10 +8,11 @@ class App extends Component {
   constructor() {
 	  super()
 	  this.state = {
-      board_size : 3, // 3-6 (let user choose 4 levels)
+      board_size : 2, // 3-6 (let user choose 4 levels)
       board : [],
       click_count : 0,
-    } 
+    }
+    this.createShuffledArray(); // Assuming it's possible to solve the puzzle for any shuffeling (probably it is, i'm not sure, let user test that assumption :)  
     
   }
   
@@ -53,6 +54,7 @@ class App extends Component {
       let temp = this.state.board[index];
       this.state.board[index] = this.state.board[empty_square_index];
       this.state.board[empty_square_index] = temp;
+      this.setState({board: this.state.board})
     }
     else {
       console.log("Tipeshhhh");
@@ -109,8 +111,10 @@ class App extends Component {
     return true
   }
 
-  onClickHandler = (e) => {
-    this.state.click_count++;    
+  onClickHandler = (arr_index) => {
+    this.state.click_count++;
+    console.log(arr_index)
+    this.moveSquare(arr_index)
   }
 
   render_row  = (row_num) =>  {
@@ -118,7 +122,7 @@ class App extends Component {
     for (let j = 0; j < this.state.board_size; j++) {
       let arr_index = row_num * this.state.board_size + j;
       let arr_val = this.state.board[arr_index] != 0 ? this.state.board[arr_index] : "";
-      row_buttons.push(<button className='square-button' onClick={this.onClickHandler}> {arr_val} </button>)
+      row_buttons.push(<button className='square-button' onClick={() => this.onClickHandler(arr_index)}> {arr_val} </button>)
     }
     return (
       <div className='row'>
@@ -140,7 +144,6 @@ class App extends Component {
   }
 
   render() {
-    this.createShuffledArray(); // Assuming it's possible to solve the puzzle for any shuffeling (probably it is, i'm not sure, let user test that assumption :) 
     return (
       <div className='container'>
         {this.render_board()}
