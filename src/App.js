@@ -8,7 +8,7 @@ class App extends Component {
   constructor() {
 	  super()
 	  this.state = {
-      board_size : 5, // 3-6 (let user choose 4 levels)
+      board_size : 3, // 3-6 (let user choose 4 levels)
       board : [],
       click_count : 0,
     } 
@@ -45,8 +45,72 @@ class App extends Component {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  moveSquare = (index) => {
+    // Finding where the empty square is:
+    let empty_square_index = this.findEmptySquare();
+
+    if (this.areNeighbors(index, empty_square_index)) {
+      let temp = this.state.board[index];
+      this.state.board[index] = this.state.board[empty_square_index];
+      this.state.board[empty_square_index] = temp;
+    }
+    else {
+      console.log("Tipeshhhh");
+    }
+
+    if (this.isFinished()) {
+      console.log("Boom!!!")
+    }
+  }
+  
+  findEmptySquare = (e) => {
+    let empty_square_index = -1;
+    let board_size = this.state.board_size;
+    for (let i= 0; i < board_size * board_size; ++i) {
+      if (this.state.board[i] === 0) {
+        empty_square_index = i;
+        break;
+      }
+    }
+    
+    return empty_square_index;
+  }
+
+  // Checking whether or not two indexes are neighbors in board
+  areNeighbors = (i,j) => {
+    // Gather i neighbors
+    let neighbors = []
+    let row = Math.floor(i / this.state.board_size)
+    let col = i % this.state.board_size
+    if (row > 0) {
+      neighbors.push(i-this.state.board_size)
+    }
+    if (row < this.state.board_size - 1) {
+      neighbors.push(i + this.state.board_size)
+    }
+    if (col > 0) {
+      neighbors.push(i-1)
+    }
+    if (col < this.state.board_size - 1) {
+      neighbors.push(i + 1)
+    }
+
+    return neighbors.includes(j)
+  }
+
+  isFinished = (e) => {
+    let board_size = this.state.board_size; 
+    for (let i= 0; i < board_size * board_size - 1; ++i) {
+      if (this.state.board[i] != i+1) {
+        return false
+      }
+    }
+
+    return true
+  }
+
   onClickHandler = (e) => {
-    this.state.click_count++;
+    this.state.click_count++;    
   }
 
   render_row  = (row_num) =>  {
@@ -76,7 +140,7 @@ class App extends Component {
   }
 
   render() {
-    this.createShuffledArray(); // Assuming user will be able to solve the puzzle for any shuffeling (probably he does, i'm not )
+    this.createShuffledArray(); // Assuming it's possible to solve the puzzle for any shuffeling (probably it is, i'm not sure, let user test that assumption :) 
     return (
       <div className='container'>
         {this.render_board()}
