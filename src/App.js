@@ -50,20 +50,25 @@ class App extends Component {
     let white_square_index = right_bottom_corner_idx
     
     let cnt = 0
-    this.validShuffleStep(white_square_index, cnt)
+    this.validShuffleStep(white_square_index, -1, cnt)
   }
 
-  validShuffleStep = (white_square_index, cnt) => {
+  validShuffleStep = (white_square_index, last_index, cnt) => {
     if (cnt > Math.pow(10, this.state.board_size - 1)) {
       return;
     }
     let neighbors = this.getNeighbors(white_square_index);
     let neighbors_cnt = neighbors.length;
-    let random_neighbor = this.getRandomInt(0,neighbors_cnt-1)
+    let random_neighbor = -1;
+    do {
+      random_neighbor = this.getRandomInt(0,neighbors_cnt-1)
+    }
+    while (neighbors[random_neighbor] == last_index);
     this.swapSquares(white_square_index, neighbors[random_neighbor])
     this.setState({board: this.state.board})
+    last_index = neighbors[random_neighbor];
 
-    setTimeout(() => this.validShuffleStep(neighbors[random_neighbor], ++cnt)  , 500/Math.sqrt(Math.pow(1.3,cnt)));
+    setTimeout(() => this.validShuffleStep(neighbors[random_neighbor], last_index ,++cnt)  , 500/Math.sqrt(Math.pow(1.3,cnt)));
   }
 
   getRandomInt = (min, max) => {
