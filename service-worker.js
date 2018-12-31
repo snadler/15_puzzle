@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/snadler/15_puzzle/precache-manifest.b69b3343596eb2661739cd0d69526a40.js"
+  "/15_puzzle/precache-manifest.a09f8b1c5d0f417a734f7f9b52ee22c6.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/snadler/15_puzzle/index.html", {
+workbox.routing.registerNavigationRoute("/15_puzzle/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
