@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 
 
+const DEBUG = false;
+
 class App extends Component {
 
   constructor() {
@@ -17,7 +19,9 @@ class App extends Component {
     
     this.state.pieces = Math.pow(this.state.board_size, 2) - 1;
     // this.nastyShuffleBoard(); // In that case we might not have a solution (look in https://en.wikipedia.org/wiki/15_puzzle#Solvability)
-    this.shuffleBoard();
+    this.setOrderedBoard();
+    setTimeout(this.shuffleBoard, 1000);
+    // this.shuffleBoard();
   }
 
   setOrderedBoard = (e) => {
@@ -46,6 +50,7 @@ class App extends Component {
     }
   }
 
+
   shuffleBoard = (e) => {
     this.setOrderedBoard()
     let right_bottom_corner_idx =this.state.pieces;
@@ -53,6 +58,29 @@ class App extends Component {
     
     let cnt = 0;
     this.validShuffleStep(white_square_index, -1, cnt);
+  }
+
+  indexToImageSlice = (arr_index, arr_val) => {
+    const row = Math.floor((arr_val - 1) / this.state.board_size);
+    const col = (arr_val - 1) % this.state.board_size;;
+    
+    if (!arr_val) {
+      return (
+        <button className='square-button' onClick={() => this.onClickHandler(arr_index)}>  
+        </button>
+      )
+    }
+    return (
+      <button className='square-button' onClick={() => this.onClickHandler(arr_index)}
+        style={{
+          backgroundImage: "url('./ultimate_fighter.JPG')",
+          backgroundPositionX: 800 - 200 * col,
+          backgroundPositionY: 800 - 200 * row,
+          }}> 
+          {DEBUG && arr_val}
+      </button>
+    )
+
   }
 
   validShuffleStep = (white_square_index, last_index, cnt) => {
@@ -69,7 +97,7 @@ class App extends Component {
     this.swapSquares(white_square_index, neighbors[random_neighbor]);
     this.setState({board: this.state.board});
 
-    setTimeout(() => this.validShuffleStep(neighbors[random_neighbor], white_square_index ,++cnt)  , 500/Math.sqrt(Math.pow(1.3,cnt)));
+    setTimeout(() => this.validShuffleStep(neighbors[random_neighbor], white_square_index ,++cnt)  , 800/Math.sqrt(Math.pow(1.3,cnt)));
   }
 
 
@@ -84,6 +112,7 @@ class App extends Component {
     let temp = this.state.board[i];
     this.state.board[i] = this.state.board[j];
     this.state.board[j] = temp;
+
   }
 
   moveSquare = (index) => {
@@ -166,7 +195,7 @@ class App extends Component {
     for (let j = 0; j < this.state.board_size; j++) {
       let arr_index = row_num * this.state.board_size + j;
       let arr_val = this.state.board[arr_index] != 0 ? this.state.board[arr_index] : "";
-      row_buttons.push(<button className='square-button' onClick={() => this.onClickHandler(arr_index)}> {arr_val} </button>)
+      row_buttons.push(this.indexToImageSlice(arr_index, arr_val));
     }
     return (
       <div className='row'>

@@ -9,6 +9,10 @@
   align-items: center;
 }
 
+body {
+  background-color: rgb(143, 82, 82);
+}
+
 .row {
 	display: flex;
 	flex-direction: row;
@@ -17,6 +21,7 @@
 .board {
   display: flex;
   flex-direction: column;
+  margin-top: 4%;
 }
 
 /* Style the button and place it in the middle of the container/image */
@@ -24,8 +29,10 @@
 	background-color: white;
 	color: rgb(243, 47, 12);
 	font-size: 100px;
-	padding: 12px 24px;
-	border: 2px solid black;
+  padding: 12px 24px;
+  box-sizing: border-box;
   cursor: pointer;
-  width: 140px
+  width: 200px;
+  min-height: 200px;
+  background-size: 800px 800px;
   }
