@@ -1,14 +1,14 @@
 {
-  "main.css": "/[your-repo-name]/static/css/main.c0bb4860.chunk.css",
-  "main.js": "/[your-repo-name]/static/js/main.3874508f.chunk.js",
-  "main.js.map": "/[your-repo-name]/static/js/main.3874508f.chunk.js.map",
-  "static/js/1.4a34e45d.chunk.js": "/[your-repo-name]/static/js/1.4a34e45d.chunk.js",
-  "static/js/1.4a34e45d.chunk.js.map": "/[your-repo-name]/static/js/1.4a34e45d.chunk.js.map",
-  "runtime~main.js": "/[your-repo-name]/static/js/runtime~main.6ea93e6a.js",
-  "runtime~main.js.map": "/[your-repo-name]/static/js/runtime~main.6ea93e6a.js.map",
-  "static/media/logo.svg": "/[your-repo-name]/static/media/logo.5d5d9eef.svg",
-  "static/css/main.c0bb4860.chunk.css.map": "/[your-repo-name]/static/css/main.c0bb4860.chunk.css.map",
-  "index.html": "/[your-repo-name]/index.html",
-  "precache-manifest.2da6241478146b3fcac154952aa9c769.js": "/[your-repo-name]/precache-manifest.2da6241478146b3fcac154952aa9c769.js",
-  "service-worker.js": "/[your-repo-name]/service-worker.js"
+  "main.css": "/snadler/15_puzzle/static/css/main.c0bb4860.chunk.css",
+  "main.js": "/snadler/15_puzzle/static/js/main.f0203d0f.chunk.js",
+  "main.js.map": "/snadler/15_puzzle/static/js/main.f0203d0f.chunk.js.map",
+  "static/js/1.4a34e45d.chunk.js": "/snadler/15_puzzle/static/js/1.4a34e45d.chunk.js",
+  "static/js/1.4a34e45d.chunk.js.map": "/snadler/15_puzzle/static/js/1.4a34e45d.chunk.js.map",
+  "runtime~main.js": "/snadler/15_puzzle/static/js/runtime~main.735e35b9.js",
+  "runtime~main.js.map": "/snadler/15_puzzle/static/js/runtime~main.735e35b9.js.map",
+  "static/media/logo.svg": "/snadler/15_puzzle/static/media/logo.5d5d9eef.svg",
+  "static/css/main.c0bb4860.chunk.css.map": "/snadler/15_puzzle/static/css/main.c0bb4860.chunk.css.map",
+  "index.html": "/snadler/15_puzzle/index.html",
+  "precache-manifest.b69b3343596eb2661739cd0d69526a40.js": "/snadler/15_puzzle/precache-manifest.b69b3343596eb2661739cd0d69526a40.js",
+  "service-worker.js": "/snadler/15_puzzle/service-worker.js"
 }
