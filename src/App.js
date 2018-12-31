@@ -12,8 +12,10 @@ class App extends Component {
       board : [],
       click_count : 0,
       is_cheating : false, // set a hidden button to choose whether to use a true shuffeling or the nasty one
+      pieces: 0,
     }
     
+    this.state.pieces = Math.pow(this.state.board_size, 2) - 1;
     // this.nastyShuffleBoard(); // In that case we might not have a solution (look in https://en.wikipedia.org/wiki/15_puzzle#Solvability)
     this.shuffleBoard();
   }
@@ -46,30 +48,31 @@ class App extends Component {
 
   shuffleBoard = (e) => {
     this.setOrderedBoard()
-    let right_bottom_corner_idx = Math.pow(this.state.board_size, 2) - 1
+    let right_bottom_corner_idx =this.state.pieces;
     let white_square_index = right_bottom_corner_idx
     
-    let cnt = 0
-    this.validShuffleStep(white_square_index, -1, cnt)
+    let cnt = 0;
+    this.validShuffleStep(white_square_index, -1, cnt);
   }
 
   validShuffleStep = (white_square_index, last_index, cnt) => {
-    if (cnt > Math.pow(10, this.state.board_size - 1)) {
+    if (white_square_index ===  this.state.pieces && cnt > Math.pow(10, this.state.board_size - 1)/2) {
       return;
     }
     let neighbors = this.getNeighbors(white_square_index);
     let neighbors_cnt = neighbors.length;
     let random_neighbor = -1;
     do {
-      random_neighbor = this.getRandomInt(0,neighbors_cnt-1)
+      random_neighbor = this.getRandomInt(0,neighbors_cnt-1);
     }
     while (neighbors[random_neighbor] == last_index);
-    this.swapSquares(white_square_index, neighbors[random_neighbor])
-    this.setState({board: this.state.board})
-    last_index = neighbors[random_neighbor];
+    this.swapSquares(white_square_index, neighbors[random_neighbor]);
+    this.setState({board: this.state.board});
 
-    setTimeout(() => this.validShuffleStep(neighbors[random_neighbor], last_index ,++cnt)  , 500/Math.sqrt(Math.pow(1.3,cnt)));
+    setTimeout(() => this.validShuffleStep(neighbors[random_neighbor], white_square_index ,++cnt)  , 500/Math.sqrt(Math.pow(1.3,cnt)));
   }
+
+
 
   getRandomInt = (min, max) => {
     min = Math.ceil(min);
